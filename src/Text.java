@@ -35,7 +35,7 @@ public class Text
 
     private boolean mc_wing = false;
 
-    private float[] mc_stat = {4758.0f, 760.0f, 450.0f, 0.0f};
+    private float[] mc_stat = {124758.0f, 760.0f, 450.0f, 0.0f};
 
     private Weapon[] mc_have = new Weapon[]{new Katana(), new Book()}; 
 
@@ -158,7 +158,7 @@ public class Text
 
     public int return_lv(int who)
     {
-        if(who == 0) return enemy_lv;
+        if(who != 0) return enemy_lv;
         else return mc_lv;
     }
 

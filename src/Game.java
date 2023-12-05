@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
@@ -55,20 +56,53 @@ public class Game
         create_character(1);
     }
 
+    private void monika_turn()
+    {
+        monika.attack(serena);
+    }
+
     private String[] choice = 
     {
         "\nWhat should I do?",
-        "Check my status (0)",
-        "Attack her(1)",
-        "Talk to her(2)",
+        "Check my status (1)",
+        "Check Monika statue (2)",
+        "Swap you Weapon (3)",
+        "Attack her(4)",
+        "Talk to her(5)",
         "Do nothing(else)\n"
     };
 
     private void start_playing()
     {
+        boolean in_turn = true;
+
         while(game_running)
         {
-            for(String i: choice) System.out.println(i);
+            while (in_turn) 
+            {
+                for(String i: choice) System.out.println(i);
+                int input = 0;
+
+                if(get.hasNextInt()) input = get.nextInt();
+
+                switch (input) 
+                {
+                    case 1 -> System.out.println(serena);
+                    case 2 -> System.out.println(monika);
+                    case 3 -> serena.swap_weapon();
+                    case 4 -> 
+                    {
+                        serena.attack(monika);
+                        in_turn = false;
+                    }
+                    default -> System.out.println("\nDo nothing\n");
+                }
+
+                get.nextLine();
+            }
+
+            monika_turn();
+            in_turn = true;
         }
     }
 

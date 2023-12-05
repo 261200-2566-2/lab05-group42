@@ -13,7 +13,7 @@ public class Book extends Weapon
     {
         "Dark fire ball",
         "Voodoo doll",
-        "Abyss monster fang\r\n",
+        "Abyss monster fang",
         "Your power is nearby people's life"
     };
 
@@ -45,6 +45,8 @@ public class Book extends Weapon
         else if(choose == 2) return (float) (dmg * 3.2);
         else if(choose == 3) System.out.println("\nFollow the story, you can't be used this skill.\n");
         else System.out.println("\nDo nothing\n");
+
+        get.nextLine();
 
         return 0;
     }

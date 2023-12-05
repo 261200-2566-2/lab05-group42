@@ -42,6 +42,8 @@ public class Katana extends Weapon
         else if(choose == 2) System.out.println("\nThis skill cannot be used now.\n");
         else System.out.println("\nDo nothing\n");
 
+        get.nextLine();
+
         return 0;
     }
 }

@@ -79,6 +79,7 @@ abstract public class Character implements Character_interface
             this.have_wing = have_wing;
             this.equipment = equipment;
             weapon_inventory = weapon_have;
+            weapon = weapon_have[0];
 
             stat1 = stat;
 
@@ -107,24 +108,12 @@ abstract public class Character implements Character_interface
             float dmg_m_def = dmg;
             dmg_m_def -= stat2[3];
             if(dmg_m_def < 0) dmg_m_def = 0;
-            stat2[1] -= dmg;
+            stat2[0] -= dmg;
             System.out.println('\n'+info[0]+" be attacked with "+dmg+" dmg"+'\n');
         } 
 
         @Override
-        public void attack(Character target) 
-        {
-            Scanner get = new Scanner(System.in);
-            
-            int input = -1;
-
-            System.out.println("normal attack(0) skill(1) cancel(else)\n");
-            
-            if(get.hasNextInt()) input = get.nextInt();
-
-            if(input == 0) target.be_attack(normal_attack());
-            else target.be_attack(skill());
-        }
+        abstract public void attack(Character target);
 
         // astract
         @Override
@@ -146,9 +135,10 @@ abstract public class Character implements Character_interface
                 Scanner get = new Scanner(System.in);
 
                 int size = weapon_inventory.length;
+                System.out.println();
                 for(int i = 0; i < size; i++)
                 {
-                    System.out.printf("(%d) %s",i,weapon_inventory[i].return_name());
+                    System.out.printf("(%d) %s\n",i,weapon_inventory[i].return_name());
                 }
 
                 System.out.println("\nChoose your weapon");
@@ -253,6 +243,11 @@ abstract public class Character implements Character_interface
             }
         }
 
+        public String return_name()
+        {
+            return info[0];
+        }
+
         @Override
         public String toString() 
         {
@@ -260,16 +255,17 @@ abstract public class Character implements Character_interface
 
             String 
                 name = "\nName: " + info[0] + '\n',
-                job = "\nJob: " + info[1] + '\n',
-                species = "\nSpecies: " + info[2] + '\n',
+                job = "Job: " + info[1] + '\n',
+                species = "Species: " + info[2] + '\n',
                 //stat
                 stat_string = 
+                    "\nWeapon: " + weapon.return_name() + '\n' +
                     "LV: " + lv + '\n' +
                     "HP: " + stat2[0] + '/' + stat1[0] + '\n' +
                     "Mana: " + stat2[1] + '/' + stat1[1] + '\n' +
                     "ATK: " + stat2[2] + " + " +weapon.return_atk() + '\n' +
                     "DEF: " + stat2[3] + '\n',
-                profile = "\nBackstory :\n "+ info[3] + "\n\n";
+                profile = "\nBackstory :\n"+ info[3] + "\n\n";
 
             for_return = name+job+species+stat_string+profile;
 

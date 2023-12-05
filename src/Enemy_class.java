@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Enemy_class extends Character
 {
     Enemy_class(String[] info, int lv, boolean have_wing,  Accessory[] equipment, Weapon[] weapon_have, float[] stat, String[] word)
@@ -39,9 +41,33 @@ public class Enemy_class extends Character
     }
 
     @Override
+    public void attack(Character target) 
+    {
+        Random rand = new Random();
+        
+        int i = rand.nextInt(2);
+
+        if(super.stat2[1] > 0)
+        {
+            if(i == 0)
+            {
+                target.be_attack(normal_attack());
+                stat2[1] -= 14;
+            } 
+            else
+            {
+                target.be_attack(skill());
+                stat2[1] -= 27;
+            } 
+        }
+        else System.out.printf("\n%s out of mana\n\n", super.return_name());
+    }
+
+    @Override
     public float skill() 
     {
-        return 0;
+        float dmg = weapon.skill(stat2[2]);
+        return love_effect(dmg);
     }
 
     public float normal_attack() 
