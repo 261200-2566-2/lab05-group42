@@ -2,12 +2,12 @@ import java.util.Scanner;
 
 abstract public class Character implements Character_interface
 {
-    private float[] stat1;
+    protected float[] stat1;
     //0 Max_HP
     //1 Max_mana
     //2 base_atk
 
-    private float[] stat2;
+    protected float[] stat2;
     //0 current hp
     //1 currrent mana
     //2 atk after cal
@@ -35,10 +35,10 @@ abstract public class Character implements Character_interface
 
     private Item[] inventory;
 
-    private Weapon weapon;
+    protected Weapon weapon;
     private Weapon[] weapon_inventory;
 
-    private String[] word;
+    protected String[] word;
 
     //private:
         private void use_item2(int size, int input)
@@ -82,24 +82,24 @@ abstract public class Character implements Character_interface
 
             stat1 = stat;
 
+            stat2 = new float[4];
+
             this.word = word;
 
             if(equipment != null) 
             {
-                for(Accessory i: equipment) i.equip(stat1, stat2);
+                for(Accessory i: equipment)
+                {
+                    if(i != null)i.equip(stat1, stat2);
+                } 
             }
 
             stat2[0] = stat1[0];
             stat2[1] = stat1[1];
             stat2[2] = stat1[2] * lv;
-
         }
 
-        @Override
-        public float normal_attack()
-        {
-            return (float) (weapon.return_atk() + stat2[2]);
-        }
+        abstract public float normal_attack();
 
         @Override
         public void be_attack(float dmg)
@@ -111,16 +111,31 @@ abstract public class Character implements Character_interface
             System.out.println('\n'+info[0]+" be attacked with "+dmg+" dmg"+'\n');
         } 
 
+        @Override
+        public void attack(Character target) 
+        {
+            Scanner get = new Scanner(System.in);
+            
+            int input = -1;
+
+            System.out.println("normal attack(0) skill(1) cancel(else)\n");
+            
+            if(get.hasNextInt()) input = get.nextInt();
+
+            if(input == 0) target.be_attack(normal_attack());
+            else target.be_attack(skill());
+        }
+
         // astract
         @Override
         abstract public float skill();
 
         @Override
-        //astract
-        abstract public String talk();
+        abstract public void talk(Character target);
         @Override
-        //astract
-        abstract public void listen(int dialog_index);
+        abstract public void listen(int dialog_index, Character target);
+
+        abstract public boolean is_lost();
 
         @Override
         public void swap_weapon()
@@ -133,7 +148,7 @@ abstract public class Character implements Character_interface
                 int size = weapon_inventory.length;
                 for(int i = 0; i < size; i++)
                 {
-                    System.out.printf("(%d) %s",weapon_inventory[i].return_name());
+                    System.out.printf("(%d) %s",i,weapon_inventory[i].return_name());
                 }
 
                 System.out.println("\nChoose your weapon");

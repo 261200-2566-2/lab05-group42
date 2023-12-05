@@ -1,9 +1,10 @@
 public interface Character_interface 
 {
+    void attack(Character target);
     float skill();
     float normal_attack();
-    String talk(); 
-    void listen(int input);
+    void talk(Character target); 
+    void listen(int input,Character target);
     void be_attack(float dmg); //change to void
     void fly();
     void swap_weapon();
