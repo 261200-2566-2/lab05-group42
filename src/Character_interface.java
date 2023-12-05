@@ -2,8 +2,8 @@ public interface Character_interface
 {
     float skill();
     float normal_attack();
-    String talk(int text_order); //change form lab4
-    void listen(String input);
+    String talk(); 
+    void listen(int input);
     void be_attack(float dmg); //change to void
     void fly();
     void swap_weapon();

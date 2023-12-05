@@ -57,6 +57,9 @@ public class Accessory implements Accessory_interface
     @Override
     public void unequip(float[] stat1, float[] stat2) 
     {
+
+        //call this function?
+        //TO BE CONTINUE
         stat1[0] -= stat[0];
         stat2[0] = (stat2[0] > stat1[0])? stat2[0]: stat1[0];
 

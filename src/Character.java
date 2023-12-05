@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import org.xml.sax.SAXException;
-
 abstract public class Character implements Character_interface
 {
     private float[] stat1;
@@ -16,7 +14,7 @@ abstract public class Character implements Character_interface
     //3 def
 
     private boolean have_wing; //not have in lab4
-    private boolean now_flying;
+    private boolean now_flying; 
 
     private int lv;
 
@@ -40,6 +38,8 @@ abstract public class Character implements Character_interface
     private Weapon weapon;
     private Weapon[] weapon_inventory;
 
+    private String[] word;
+
     //private:
         private void use_item2(int size, int input)
         {
@@ -50,16 +50,21 @@ abstract public class Character implements Character_interface
                 
                 if(inventory[input].return_count() == 0)
                 {
-                    Item[] new_inventory = new Item[size-1];
-                    int new_index = 0;
-                    for(int i = 0; i < size; i++)
+                    size -= 1;
+                    if(size > 0)
                     {
-                        if(i == input) continue;
+                        Item[] new_inventory = new Item[size-1];
+                        int new_index = 0;
+                        for(int i = 0; i < size; i++)
+                        {
+                            if(i == input) continue;
 
-                        new_inventory[new_index++] = inventory[i];
-                    } 
-
-                    inventory = new_inventory;
+                            new_inventory[new_index++] = inventory[i];
+                        }
+                        
+                        inventory = new_inventory;
+                    }
+                    else inventory = null;
                 }
                 
             }
@@ -67,19 +72,27 @@ abstract public class Character implements Character_interface
 
     // public:
         //wait
-        public Character(String[] info, int lv, boolean have_wing,  Accessory[] equipment, Weapon[] weapon_have, float[] stat)
+        public Character(String[] info, int lv, boolean have_wing,  Accessory[] equipment, Weapon[] weapon_have, float[] stat, String[] word)
         {
             this.info = info;
             this.lv = lv;
             this.have_wing = have_wing;
             this.equipment = equipment;
             weapon_inventory = weapon_have;
+
             stat1 = stat;
+
+            this.word = word;
 
             if(equipment != null) 
             {
                 for(Accessory i: equipment) i.equip(stat1, stat2);
             }
+
+            stat2[0] = stat1[0];
+            stat2[1] = stat1[1];
+            stat2[2] = stat1[2] * lv;
+
         }
 
         @Override
@@ -100,27 +113,16 @@ abstract public class Character implements Character_interface
 
         // astract
         @Override
-        public float skill()
-        {
-            return 0;
-        }
+        abstract public float skill();
 
         @Override
         //astract
-        public String talk(int text_order)
-        {
-            return "";
-        }
-
+        abstract public String talk();
         @Override
         //astract
-        public void listen(String dialog)
-        {
-
-        }
+        abstract public void listen(int dialog_index);
 
         @Override
-        //wait
         public void swap_weapon()
         {
             if(weapon_inventory.length > 1)
@@ -151,14 +153,12 @@ abstract public class Character implements Character_interface
         }
 
         @Override
-        //wait
         public void equip_Accessory(Accessory equip)
         {
-            // System.out.println("\nYou can't change your Accessory in the balle field\n");
+            System.out.println("\nYou can't change your Accessory in the balle field\n");
         }
 
         @Override
-        // wait
         public void unequip_Accessory()
         {
             int size = 0;
@@ -187,7 +187,6 @@ abstract public class Character implements Character_interface
         }
 
         @Override
-        //wait
         public void check_inventory() 
         {
             if(inventory != null)
@@ -237,5 +236,28 @@ abstract public class Character implements Character_interface
                 now_flying = true;
                 System.out.println("\nyou are flying into the sky\n");
             }
+        }
+
+        @Override
+        public String toString() 
+        {
+            String for_return = "";
+
+            String 
+                name = "\nName: " + info[0] + '\n',
+                job = "\nJob: " + info[1] + '\n',
+                species = "\nSpecies: " + info[2] + '\n',
+                //stat
+                stat_string = 
+                    "LV: " + lv + '\n' +
+                    "HP: " + stat2[0] + '/' + stat1[0] + '\n' +
+                    "Mana: " + stat2[1] + '/' + stat1[1] + '\n' +
+                    "ATK: " + stat2[2] + " + " +weapon.return_atk() + '\n' +
+                    "DEF: " + stat2[3] + '\n',
+                profile = "\nBackstory :\n "+ info[3] + "\n\n";
+
+            for_return = name+job+species+stat_string+profile;
+
+            return for_return;    
         }
 }
