@@ -12,7 +12,7 @@ public class Enemy_class extends Character
     @Override
     public void listen(int dialog_index, Character target)
     {
-        if(dialog_index <= 13)
+        if(dialog_index <= 10)
         {
             current_dialog  = dialog_index;
             talk(target);
@@ -23,15 +23,16 @@ public class Enemy_class extends Character
     public void talk(Character target) 
     {
         System.out.print("Monika : ");
-        if(current_dialog <= 13)
+        
+        if(current_dialog <= 10)
         {
             System.out.println(word[0]+'\n');
-            target.listen(0, this);
+            target.listen(0, target);
         }
         else
         {
             System.out.println(word[1]+'\n');
-            target.listen(0, this);
+            target.listen(1, target);
         }
     }
 

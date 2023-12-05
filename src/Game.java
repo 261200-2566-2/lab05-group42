@@ -69,6 +69,7 @@ public class Game
         "Swap you Weapon (3)",
         "Attack her(4)",
         "Talk to her(5)",
+        "Us Item (6)",
         "Do nothing(else)\n"
     };
 
@@ -76,7 +77,7 @@ public class Game
     {
         boolean in_turn = true;
 
-        while(game_running)
+        while(game_running && !serena.is_lost())
         {
             while (in_turn) 
             {
@@ -95,6 +96,8 @@ public class Game
                         serena.attack(monika);
                         in_turn = false;
                     }
+                    case 5 -> serena.talk(monika);
+                    case 6 -> System.out.println("\nI'm lazy to so this function\n");
                     default -> System.out.println("\nDo nothing\n");
                 }
 
@@ -104,6 +107,21 @@ public class Game
             monika_turn();
             in_turn = true;
         }
+
+        close_bgm();
+
+        String[] end_text = 
+        {
+            "\nYou lost her, so you have to escape and wait until you found her again\n\n",
+            "\nSerena pay everything she have to fly in the sky. She hug monika with her arm before free her.\n",
+            "ENDING"
+        };
+
+        if(serena.is_lost()) Game.typping_effect(end_text[0]);
+        else Game.typping_effect(end_text[1]);
+
+        Game.typping_effect(end_text[2]);
+        System.out.println();
     }
 
     //method in game

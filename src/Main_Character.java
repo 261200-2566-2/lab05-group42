@@ -12,18 +12,21 @@ public class Main_Character extends Character
     @Override
     public void talk(Character target) 
     {
-        System.out.print("Selena : ");
-        System.out.println('\n'+super.word[word_index]);
-        target.listen(word_index++, this);
+        if(word_index <= 10)
+        {
+            System.out.print("Selena : ");
+            System.out.println(super.word[word_index]);
+            target.listen(word_index++, this);
+        }
     }
 
     @Override
     public void listen(int dialog_index, Character target) 
     {
-        if(dialog_index == 1) System.out.println('\n'+super.word[14]+'\n');
+        if(dialog_index == 1)
         {
             System.out.print("Selena : ");
-            System.out.println(word[14]+"\n\n");
+            System.out.println(word[11]+"\n\n");
             Game.end();
         }
     }
